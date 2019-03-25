@@ -32,6 +32,7 @@ Results :
 
 Tests run: 1, Failures: 0, Errors: 0, Skipped: 0
 ``` 
+
         1.  Another thing Maven is doing is building a so-called executable "Uber jar", using the Maven Assembly plugin (again, reference the [pom.xml](pom.xml)).  This helps application developers in two ways:
             1. When you have multiple dependent jars, sometimes classpath management and application distribution can be problematic.  For someone to use your library they need access to your maven metadata to know what to download (or you need to publish that list), and they need to set the [Java classpath](https://en.wikipedia.org/wiki/Classpath_(Java)) to include all of the jars necessary to run your application.  Java has some packaging formats to help with this, but they are somewhat niche usecases.  The assembly plugin has a goal that will take your application code and all of its dependencies, and shove them into a single jar file.   
             1. Another problem with running java programs sometimes is getting the command right to actually start your program from the command line.  Java has [a facility](https://docs.oracle.com/javase/tutorial/deployment/jar/run.html) to simplify the process for end users so they can just run your jar with a simple invocation (`java -jar <your-jar>.jar`).  The assembly plugin helps facilitate making your jar executable by letting you specify in your plugin configuration the class that contains your `main()` method you want as the entry point to your application. 
