@@ -4,15 +4,9 @@
 
 For this lab, you will learn a little more about Maven and Gradle, by converting a Maven project to a Gradle project.  The project itself is pretty simple, but has been constructed to demonstrate some common use cases where build tools can help you accomplish your goal.  The code maps strings from "Upper Underscore" case to "Lower Camel" case, leveraging the [Guava CaseFormat](https://github.com/google/guava/wiki/StringsExplained#caseformat) library.  The final artifact is a docker image that can be run and accepts an input string, converts it, and spits the output to `stdout`.
 
-## Prerequisites
-
-* Create a "labs" directory if you don't already have one by opening a terminal
-and typing:
-``mkdir ~/labs``
-
 ## Getting Started:
 
-1. Copy the starter code from here into a new, private repository in your personal GitHub account using [these instructions](https://github.com/jeff-anderson-cscc/submitting-assignments-lab#copy-the-starter-code-into-a-new-private-repository-in-your-personal-github-account) substituting this repository URL ``https://github.com/jschmersal-cscc/special-topics-labs-build-tools`` for the one referenced in that document
+1. Copy the starter code from here into a new, private repository in your personal GitHub account using [these instructions](https://github.com/jeff-anderson-cscc/submitting-assignments-lab#copy-the-starter-code-into-a-new-private-repository-in-your-personal-github-account) substituting this repository URL ``https://github.com/jschmersal-cscc/special-topics-labs-build-tools`` for the one referenced in that document.  When adding a collaborator, be sure to add me ("jschmersal-cscc").
 2. Create a new branch for your code changes as described in [these instructions](https://github.com/jeff-anderson-cscc/submitting-assignments-lab#before-you-start-coding)
 
 
@@ -37,7 +31,6 @@ Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.074 sec
 Results :
 
 Tests run: 1, Failures: 0, Errors: 0, Skipped: 0
-
 ``` 
         1.  Another thing Maven is doing is building a so-called executable "Uber jar", using the Maven Assembly plugin (again, reference the [pom.xml](pom.xml)).  This helps application developers in two ways:
             1. When you have multiple dependent jars, sometimes classpath management and application distribution can be problematic.  For someone to use your library they need access to your maven metadata to know what to download (or you need to publish that list), and they need to set the [Java classpath](https://en.wikipedia.org/wiki/Classpath_(Java)) to include all of the jars necessary to run your application.  Java has some packaging formats to help with this, but they are somewhat niche usecases.  The assembly plugin has a goal that will take your application code and all of its dependencies, and shove them into a single jar file.   
