@@ -17,22 +17,7 @@ For this lab, you will learn a little more about Maven and Gradle, by converting
     1. You _must not_ remove or change any of the tests in the [src/test](src/test) directory.  If you want to add extra tests, by all means do so.  Remember though that the point of this lab isn't to fix or modify the software, but rather to migrate from one build system to another.
     1. As you are migrating, you will notice a few things that Maven is handling for you (that will be critical parts of migrating to Gradle):
         1.  The first thing Maven is doing is helping manage dependencies.  If you look at the [pom.xml](pom.xml) you will see the `<dependencies>` section.  The inclusion of Guava is part of that.  If you were to [comment out](https://stackoverflow.com/questions/2757396/how-do-i-comment-out-a-block-of-tags-in-xml) the Guava dependency (I suggest you try it) and run `mvn clean compile` you will see that the code doesn't even compile.  Your first step in migrating to Gradle should likely be to get your code to compile with your Gradle build script.
-        1.  The second thing Maven is doing is helping run unit tests. If you run `mvn test` you will see output similar to the below snippet.  Your next step should be to get your tests running in your Gradle build.
-```
-[INFO] --- maven-surefire-plugin:2.10:test (default-test) @ constant-to-camel ---
-[INFO] Surefire report directory: /home/jts25/repos/special-topics-build-tools/target/surefire-reports
-
--------------------------------------------------------
- T E S T S
--------------------------------------------------------
-Running edu.cscc.topics.tools.build.ConstantToCamelTest
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.074 sec
-
-Results :
-
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0
-``` 
-
+        1.  The second thing Maven is doing is helping run unit tests. If you run `mvn test` you will see output similar to the [this output](#mvn-test-output).  Your next step should be to get your tests running in your Gradle build.
         1.  Another thing Maven is doing is building a so-called executable "Uber jar", using the Maven Assembly plugin (again, reference the [pom.xml](pom.xml)).  This helps application developers in two ways:
             1. When you have multiple dependent jars, sometimes classpath management and application distribution can be problematic.  For someone to use your library they need access to your maven metadata to know what to download (or you need to publish that list), and they need to set the [Java classpath](https://en.wikipedia.org/wiki/Classpath_(Java)) to include all of the jars necessary to run your application.  Java has some packaging formats to help with this, but they are somewhat niche usecases.  The assembly plugin has a goal that will take your application code and all of its dependencies, and shove them into a single jar file.   
             1. Another problem with running java programs sometimes is getting the command right to actually start your program from the command line.  Java has [a facility](https://docs.oracle.com/javase/tutorial/deployment/jar/run.html) to simplify the process for end users so they can just run your jar with a simple invocation (`java -jar <your-jar>.jar`).  The assembly plugin helps facilitate making your jar executable by letting you specify in your plugin configuration the class that contains your `main()` method you want as the entry point to your application. 
@@ -58,3 +43,21 @@ If you need to amend your work after you issue your initial pull request:
 1. Commit your updates
 1. Push your changes to gitHub
 1. Verify the new commits were automatically added to your open pull request
+
+
+## Footnotes
+### mvn test output
+```
+[INFO] --- maven-surefire-plugin:2.10:test (default-test) @ constant-to-camel ---
+[INFO] Surefire report directory: /home/jts25/repos/special-topics-build-tools/target/surefire-reports
+
+-------------------------------------------------------
+ T E S T S
+-------------------------------------------------------
+Running edu.cscc.topics.tools.build.ConstantToCamelTest
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.074 sec
+
+Results :
+
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0
+ ```
