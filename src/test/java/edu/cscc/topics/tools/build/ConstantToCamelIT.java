@@ -9,13 +9,17 @@ import com.github.dockerjava.core.DockerClientBuilder;
 import com.github.dockerjava.core.command.LogContainerResultCallback;
 import org.junit.Test;
 
-import static org.junit.Assert.assertTrue;
+import java.util.List;
+
+import static org.junit.Assert.*;
 
 public class ConstantToCamelIT {
     @Test
     public void replacesDefaultJavaStyleConstantWithCamelCase() throws InterruptedException {
         DockerClient dockerClient = DockerClientBuilder.getInstance().build();
-        Image image = dockerClient.listImagesCmd().withImageNameFilter("edu.cscc.topics.tools/constant-to-camel").exec().get(0);
+        List<Image> images = dockerClient.listImagesCmd().withImageNameFilter("edu.cscc.topics.tools/constant-to-camel").exec();
+        assertTrue( "Couldn't find image named 'edu.cscc.topics.tools/constant-to-camel'", images.size() > 0);
+        Image image = images.get(0);
         CreateContainerResponse container = dockerClient.createContainerCmd(image.getId())
                 .withTty(true)
                 .withAttachStdin(true)
@@ -38,7 +42,8 @@ public class ConstantToCamelIT {
 
         dockerClient.removeContainerCmd(container.getId()).exec();
 
-        assertTrue(stringBuilder.toString().startsWith("thisIsATestConstantName"));
+        assertTrue("expected '" + stringBuilder.toString() + "' to start with 'thisIsATestConstantName'",
+                stringBuilder.toString().startsWith("thisIsATestConstantName"));
     }
 
     @Test

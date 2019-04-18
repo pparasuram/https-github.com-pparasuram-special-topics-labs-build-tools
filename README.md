@@ -46,6 +46,7 @@ _NOTE:_ For this lab you will want to perform your builds only using a command l
     1. Separate unit test source code from integration test code.  This is frequently done by putting them in separate directories (e.g. `src/test` and `src/integrationTest`) and is a solid choice.
     1. However you separate your tests, you need to tell Gradle where to find your integration test source code and its dependencies.  [This blog post](https://www.petrikainulainen.net/programming/gradle/getting-started-with-gradle-integration-testing/) does a pretty good job of explaining why and how to do so.
     1. Ensure your integration tests run at the right time (similar to the prior hints on ordering, `dependsOn` will be useful heare). 
+1. If you want to test things, run your image with `docker run <your-image-name>:<your-image-tag>`.  The default output you should see is `thisIsATestConstantName`.
 1. Finally, seeing your output can be challenging for Gradle newcomers.  The best advice is probably to run with the `--info` flag while you're getting used to things.  Regardless, [enabling verbose test output](https://stackoverflow.com/questions/40954017/gradle-how-to-get-output-from-test-stderr-stdout-into-console) is likely also a good idea.
  
 
