@@ -4,12 +4,14 @@
 
 For this lab, you will learn a little more about Maven and Gradle, by converting a Maven project to a Gradle project.  The project itself is pretty simple, but has been constructed to demonstrate some common use cases where build tools can help you accomplish your goal.  The code maps strings from "Upper Underscore" case to "Lower Camel" case, leveraging the [Guava CaseFormat](https://github.com/google/guava/wiki/StringsExplained#caseformat) library.  The final artifact is a docker image that can be run and accepts an input string, converts it, and spits the output to `stdout`.
 
+Please read through the entire lab before getting started, and review the [pom.xml](pom.xml) with its comments showing where maven is helping out during the build.
+
 _NOTE:_ For this lab you will want to perform your builds only using a command line terminal.  The integration tests for this project are fairly complex, and require that the docker image be built (which happens as part of the `package` phase, when building with Maven) for them to run successfully.  
 
 ## Getting Started:
 
 1. Copy the starter code from here into a new, private repository in your personal GitHub account using [these instructions](https://github.com/jschmersal-cscc/lab0-completing-and-submitting-assignments) substituting this repository URL ``https://github.com/jschmersal-cscc/special-topics-labs-build-tools`` for the one referenced in that document.  When adding a collaborator, be sure to add me ("jschmersal-cscc").
-2. Create a new branch for your code changes as described in [these instructions](https://github.com/jeff-anderson-cscc/submitting-assignments-lab#before-you-start-coding)
+2. Create a new branch for your code changes as described in [these instructions](https://github.com/jschmersal-cscc/lab0-completing-and-submitting-assignments#important-before-you-start-coding)
 
 
 ## Completing the Assignment
@@ -41,7 +43,7 @@ _NOTE:_ For this lab you will want to perform your builds only using a command l
     1. Much of the value of the post is seeing how to structure a task that builds a docker image.  Note how it uses `dependsOn` to force an order of execution of your custom tasks (interleaved with built-in Gradle lifecycle tasks).  You want to be sure that running `gradle build` will execute all of your tasks in order (compile, unit test, package the jar, build the docker image, run the integration test).
     1. Some context around building docker images might help you here.  When you build a docker image, your [Dockerfile](src/main/docker/Dockerfile) specifies a list of commands to be run when building the image.  You can look at all of the commands in the [Docker reference for Dockerfiles](https://docs.docker.com/engine/reference/builder/), but the one you'll most have to support is the [ADD](https://docs.docker.com/engine/reference/builder/#add) command. The `ADD` command adds files from a "local" buid context into the image.  So you will need to make sure that your jar is available to the docker build context.  The build context is essentially a directory.  The bmuschko Docker Gradle Plugin specifies its build context in the `inputDir` field, which defaults to `build/docker`.  So you have two choices:
         1.  Make sure `build/docker` has everything you want to add (`src/main/docker/Dockerfile` and your jar) by the time you run the bmuschko plugin.
-        1.  Change the inputDir to be something that already contains those files somewhere under them (for instance, `'.'` represents the base directory).
+        1.  Change the inputDir to be something that already contains those files somewhere under them (for instance, `'.'` represents the base directory of your gradle project).
 1. The place you're most likely to change a non-build script is when you're building your `Dockerfile`.  The existing [Dockerfile](src/main/docker/Dockerfile) has the jar name explicitly coded, and depending on how you do things your gradle-produced artifact might not follow the same naming conventions.  If they don't match, you'll likely see something along the lines of this when you try to run your docker:
 ```Error: Unable to access jarfile /opt/constant-to-camel-1.0-SNAPSHOT.jar```
 1. Running integration tests is a bit of a "roll your own" in Gradle, unfortunately.  There is, however, some collective common wisdom to be had.  The usual pattern is:
@@ -49,13 +51,13 @@ _NOTE:_ For this lab you will want to perform your builds only using a command l
     1. However you separate your tests, you need to tell Gradle where to find your integration test source code and its dependencies.  [This blog post](https://www.petrikainulainen.net/programming/gradle/getting-started-with-gradle-integration-testing/) does a pretty good job of explaining why and how to do so.
     1. Ensure your integration tests run at the right time (similar to the prior hints on ordering, `dependsOn` will be useful heare). 
 1. If you want to test things, run your image with `docker run <your-image-name>:<your-image-tag>`.  The default output you should see is `thisIsATestConstantName`.
-1. Finally, seeing your output can be challenging for Gradle newcomers.  The best advice is probably to run with the `--info` flag while you're getting used to things.  Regardless, [enabling verbose test output](https://stackoverflow.com/questions/40954017/gradle-how-to-get-output-from-test-stderr-stdout-into-console) is likely also a good idea.
+1. Finally, seeing your output can be challenging for Gradle newcomers.  The best advice is probably to run with the `-i` flag while you're getting used to things.  Regardless, [enabling verbose test output](https://stackoverflow.com/questions/40954017/gradle-how-to-get-output-from-test-stderr-stdout-into-console) is likely also a good idea.
  
 
 ## Submitting Your Work
 
-1. Create a pull request for your branch using [these instructions](https://github.com/jeff-anderson-cscc/submitting-assignments-lab#once-you-are-ready-to-submit-your-work-for-grading)
-1. Submit the assignment in Blackboard as described in [these instructions](https://github.com/jeff-anderson-cscc/submitting-assignments-lab#once-your-pull-request-is-created-and-i-am-added-as-a-reviewer)
+1. Create a pull request for your branch using [these instructions](https://github.com/jschmersal-cscc/lab0-completing-and-submitting-assignments#push-your-changes-and-create-a-pull-request-for-grading)
+1. Submit the assignment in Blackboard as described in [these instructions](https://github.com/jschmersal-cscc/lab0-completing-and-submitting-assignments#once-your-pull-request-is-reviewed-and-approved)
 
 __NOTE: I will provide feedback via. comments in your pull request.__
 If you need to amend your work after you issue your initial pull request:
