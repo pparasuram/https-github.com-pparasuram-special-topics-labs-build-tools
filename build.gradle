@@ -23,8 +23,19 @@ sourceSets {
             srcDir file('src/integrationTest/java/edu/cscc/topics/tools/build/')
         }
         // resources.srcDir file('src/integration-test/resources')
-        resources.srcDir file('src/integration-test/resources')
+        resources.srcDir file('/src/main/docker')
     }
+}
+configurations {
+    integrationTestCompile.extendsFrom testCompile
+    integrationTestRuntime.extendsFrom testRuntime
+}
+
+dependencies {
+    compile 'log4j:log4j:1.2.17'
+    testCompile 'junit:junit:4.11'
+    // integrationTestCompile 'org.assertj:assertj-core:3.0.0'
+    integrationTestCompile 'junit:junit:4.11'
 }
 
 dependencies {
@@ -61,6 +72,15 @@ task buildImage(type: DockerBuildImage) {
     // This adds this specific tag to the docker image, and is just here for reference.
     tags.add('edu.cscc.topics.tools/constant-to-camel:1.0.1')
 }
+
+task integrationTest(type: Test) {
+    testClassesDirs = sourceSets.integrationTest.output.classesDirs
+    classpath = sourceSets.integrationTest.runtimeClasspath
+    outputs.upToDateWhen { false }
+}
+
+check.dependsOn integrationTest
+integrationTest.mustRunAfter test
 
 group = 'edu.cscc.topics'
 version = '1.0-SNAPSHOT'
