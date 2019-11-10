@@ -15,18 +15,6 @@ repositories {
     }
 }
 
-sourceSets {
-    integrationTest {
-        java {
-            compileClasspath += main.output + test.output
-            runtimeClasspath += main.output + test.output
-            srcDir file('src/integrationTest/java/edu/cscc/topics/tools/build/')
-        }
-        // resources.srcDir file('src/integration-test/resources')
-        resources.srcDir file('src/integration-test/resources')
-    }
-}
-
 dependencies {
     compile 'com.google.guava:guava:20.0'
     compile 'junit:junit:4.12'
