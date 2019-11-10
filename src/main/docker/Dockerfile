@@ -1,5 +1,5 @@
 # We need to build upon a base image that has java, thus openjdk
-FROM openjdk:8
+FROM openjdk:8u181
 
 # The docker-maven-plugin puts your artifact in maven/ when you configure it with <appendAssemblyId>false</appendAssemblyId>.
 # This line puts it in /opt/ in the image we're building
