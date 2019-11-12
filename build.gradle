@@ -20,10 +20,10 @@ sourceSets {
         java {
             compileClasspath += main.output + test.output
             runtimeClasspath += main.output + test.output
-            srcDir file('src/integrationTest/java/edu/cscc/topics/tools/build/')
+            srcDir file('src/integrationTest/java/edu')
         }
-        // resources.srcDir file('src/integration-test/resources')
-        resources.srcDir file('/src/main/docker')
+        resources.srcDir file('src/integrationTest/resources')
+        // resources.srcDir file('/src/main/docker')
     }
 }
 configurations {
