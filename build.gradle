@@ -63,6 +63,7 @@ task buildImage(type: DockerBuildImage) {
     // TODO: insert the appropriate dependsOn here... what do you need to be able to run this task?  (what needs to go in the docker
     // image you're building?
     dependsOn jar    
+    dependsOn test
     // You can tell it a different place where to pick up the Dockerfile from, if you moved yours around for some reason...
     dockerFile = file('src/main/docker/Dockerfile')
     
@@ -77,6 +78,7 @@ task integrationTest(type: Test) {
     testClassesDirs = sourceSets.integrationTest.output.classesDirs
     classpath = sourceSets.integrationTest.runtimeClasspath
     outputs.upToDateWhen { false }
+    dependsOn buildImage
 }
 
 check.dependsOn integrationTest
