@@ -87,3 +87,4 @@ integrationTest.mustRunAfter test
 group = 'edu.cscc.topics'
 version = '1.0-SNAPSHOT'
 sourceCompatibility = '1.8'
+/* end */
